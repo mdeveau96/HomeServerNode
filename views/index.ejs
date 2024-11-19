@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Server</title>
+  </head>
+  <body>
+    <div class="form-container">
+      <form action="/" method="POST" enctype="multipart/form-data">
+        <label for="fileUpload">Upload your file:</label>
+        <input type="file" id="fileUpload" name="fileUpload" />
+        <button type="submit">Upload File</button>
+      </form>
+    </div>
+    <div>
+      <% if (files > 0) { %>
+      <h3>Files List</h3>
+      <p>Click to download</p>
+      <ul>
+        <% for (let file in files) { %>
+        <li><%= file.name %></li>
+        <% } %>
+      </ul>
+      <% } else { %>
+      <h1>No files saved</h1>
+      <% } %>
+    </div>
+  </body>
+</html>
