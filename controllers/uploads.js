@@ -1,9 +1,13 @@
 import { File } from "../models/file.js";
 
 export const postAddUpload = (req, res, next) => {
-  const file = new File(req.file);
+  const upload = req.file;
+  const name = upload.originalname;
+  const path = upload.path;
+  const size = upload.size;
+  const file = new File(name, path, size);
+  // console.log(file);
   file.save();
-  console.log(file);
   res.redirect("/");
 };
 
@@ -11,9 +15,9 @@ export const getUploads = (req, res, next) => {
   File.fetchAll((fileList) => {
     res.render("index", {
       files: fileList,
-      pageTitle: "Home",
+      pageTitle: "Home Server",
       path: "/",
-      hasFiles: fileList > 0,
+      hasFiles: fileList.length > 0,
     });
   });
 };
