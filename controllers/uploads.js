@@ -1,4 +1,6 @@
 import { File } from "../models/file.js";
+import fs from "fs";
+import path from "path";
 
 export const postAddUpload = (req, res, next) => {
   const upload = req.file;
@@ -20,4 +22,25 @@ export const getUploads = (req, res, next) => {
       hasFiles: fileList.length > 0,
     });
   });
+};
+
+export const getFile = (req, res, next) => {
+  const file = req.params.fileName;
+  const filePath = path.join("uploads", file);
+  if (file.includes(".pdf")) {
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        return next(err);
+      }
+      res.setHeader("Content-Type", "application/pdf");
+      res.send(data);
+    });
+  } else {
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        return next(err);
+      }
+      res.send(data);
+    });
+  }
 };

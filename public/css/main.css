@@ -1,0 +1,141 @@
+html {
+  font-family: Arial, sans-serif;
+}
+
+main {
+  padding: 5px;
+}
+
+body {
+  padding: 0;
+  margin: auto;
+  background-color: #fff7e6;
+  color: #333333;
+}
+
+button {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #fff;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #87ceeb;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.main-header {
+  padding: 20px;
+  background-color: #ffb400;
+  box-shadow: 1px 1px 1px #87ceeb;
+}
+
+.form-container {
+  margin: auto;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+#fileUpload {
+  display: none;
+}
+
+.file-label {
+  background-color: #ff6f61;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.file-label:hover {
+  background-color: #e65c50;
+}
+
+.file-label:active {
+  background-color: #d9534f;
+}
+
+.file-name {
+  color: #555;
+  font-style: italic;
+}
+
+.table-card {
+  padding: 10px;
+  width: 50rem;
+  overflow-x: auto;
+  margin: auto;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px #87ceeb;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  text-align: left;
+}
+
+.file-table thead th {
+  background-color: #ff6f61;
+  color: white;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-transform: uppercase;
+}
+
+.file-table tbody td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.file-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.file-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.file-table tbody tr:hover {
+  background-color: #ffedeb;
+}
+
+@media screen and (max-width: 600px) {
+  .file-table thead {
+    display: none;
+  }
+
+  .file-table tbody td {
+    display: block;
+    text-align: right;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .file-table tbody td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .file-table tbody tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    display: block;
+  }
+}
