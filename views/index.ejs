@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
+    <div class="alert-banner <%= isAlert === true ? 'active' : '' %>">
+      File upload failed. Please ensure you have added a file before submitting
+    </div>
     <header class="main-header">
       <div class="form-container">
         <form action="/" method="post" enctype="multipart/form-data">
@@ -14,34 +17,45 @@
             <label for="fileUpload" class="file-label">Upload your file:</label>
             <input type="file" id="fileUpload" name="fileUpload" />
             <span class="file-name">No file chosen</span>
-          </div>
-          <div class="form-submit">
             <button type="submit">Upload File</button>
           </div>
         </form>
       </div>
     </header>
-    <% if (hasFiles) { %>
     <main>
+      <% if (hasFiles) { %>
       <div class="table-card">
-        <h3>Files List</h3>
-        <p>Click to download</p>
         <table class="file-table">
-          <tr>
-            <th>File Name</th>
-            <th>Size (Bytes)</th>
-          </tr>
-          <% for (let file of files) { %>
-          <tr>
-            <td><a href="/<%= file.name %>"><%= file.name %></a></td>
-            <td><%= file.size %></td>
-          </tr>
-          <% } %>
+          <caption>
+            Click file name to download
+            <section class="pagination">
+              <% for( let index = 1; index < numberOfPages; index++ ) { %>
+                <a href="/?page=<%= index %>"><%= index %></a>
+              <% } %>
+              <hr>
+            </section>
+          </caption>
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Size (Bytes)</th>
+              <th>Date Uploaded</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (let file of files) { %>
+            <tr>
+              <td><a href="/<%= file.name %>"><%= file.name %></a></td>
+              <td><%= file.size %></td>
+              <td><%= file.uploadDate %></td>
+            </tr>
+            <% } %>
+          </tbody>
         </table>
-        <% } else { %>
-        <h1>No Files Uploaded</h1>
-        <% } %>
       </div>
+      <% } else { %>
+      <h1>No Files Uploaded</h1>
+      <% } %>
     </main>
     <script src="/js/main.js"></script>
   </body>

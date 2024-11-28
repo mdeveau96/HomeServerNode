@@ -26,10 +26,11 @@ const getFilesfromDBFile = (callback) => {
 };
 
 export class File {
-  constructor(name, path, size) {
+  constructor(name, path, size, uploadDate) {
     this.name = name;
     this.path = path;
     this.size = size;
+    this.uploadDate = uploadDate;
   }
   save() {
     getFilesfromDBFile((files) => {

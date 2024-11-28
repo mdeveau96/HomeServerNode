@@ -2,24 +2,51 @@ import { File } from "../models/file.js";
 import fs from "fs";
 import path from "path";
 
+const ITEMS_PER_PAGE = 10;
+
+const paginate = (page, files) => {
+  return files.slice(page - 1 * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1);
+};
+
+const getNumberOfPages = (fileList) => {
+  return Math.ceil(fileList.length / ITEMS_PER_PAGE);
+};
+
 export const postAddUpload = (req, res, next) => {
-  const upload = req.file;
-  const name = upload.originalname;
-  const path = upload.path;
-  const size = upload.size;
-  const file = new File(name, path, size);
-  // console.log(file);
-  file.save();
-  res.redirect("/");
+  if (req.file == undefined) {
+    File.fetchAll((fileList) => {
+      res.render("index", {
+        files: fileList,
+        pageTitle: "Home Server",
+        path: "/",
+        hasFiles: fileList.length > 0,
+        isAlert: true,
+      });
+    });
+  } else {
+    const upload = req.file;
+    const name = upload.originalname;
+    const path = upload.path;
+    const size = upload.size;
+    const uploadDate = new Date().toLocaleString();
+    const file = new File(name, path, size, uploadDate);
+    file.save();
+    res.redirect("/?page=1");
+  }
 };
 
 export const getUploads = (req, res, next) => {
+  const page = req.query.page;
   File.fetchAll((fileList) => {
+    let pagedFileList = paginate(page, fileList);
+    console.log(getNumberOfPages(fileList));
     res.render("index", {
-      files: fileList,
+      files: pagedFileList,
       pageTitle: "Home Server",
       path: "/",
       hasFiles: fileList.length > 0,
+      isAlert: false,
+      numberOfPages: getNumberOfPages(fileList),
     });
   });
 };
