@@ -1,16 +1,11 @@
 import { File } from "../models/file.js";
 import fs from "fs";
 import path from "path";
+import { paginate } from "../utils/paginate.js";
+import { getNumberOfPages } from "../utils/getNumberOfPages.js";
+import { sizeConversion } from "../utils/sizeConversion.js";
 
 const ITEMS_PER_PAGE = 10;
-
-const paginate = (page, files) => {
-  return files.slice(page - 1 * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1);
-};
-
-const getNumberOfPages = (fileList) => {
-  return Math.ceil(fileList.length / ITEMS_PER_PAGE);
-};
 
 export const postAddUpload = (req, res, next) => {
   if (req.file == undefined) {
@@ -27,7 +22,7 @@ export const postAddUpload = (req, res, next) => {
     const upload = req.file;
     const name = upload.originalname;
     const path = upload.path;
-    const size = upload.size;
+    const size = sizeConversion(upload.size);
     const uploadDate = new Date().toLocaleString();
     const file = new File(name, path, size, uploadDate);
     file.save();
@@ -38,15 +33,14 @@ export const postAddUpload = (req, res, next) => {
 export const getUploads = (req, res, next) => {
   const page = req.query.page;
   File.fetchAll((fileList) => {
-    let pagedFileList = paginate(page, fileList);
-    console.log(getNumberOfPages(fileList));
+    let pagedFileList = paginate(page, fileList, ITEMS_PER_PAGE);
     res.render("index", {
       files: pagedFileList,
       pageTitle: "Home Server",
       path: "/",
       hasFiles: fileList.length > 0,
       isAlert: false,
-      numberOfPages: getNumberOfPages(fileList),
+      numberOfPages: getNumberOfPages(fileList, ITEMS_PER_PAGE),
     });
   });
 };

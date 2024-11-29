@@ -29,7 +29,7 @@
           <caption>
             Click file name to download
             <section class="pagination">
-              <% for( let index = 1; index < numberOfPages; index++ ) { %>
+              <% for( let index = 1; index <= numberOfPages; index++ ) { %>
                 <a href="/?page=<%= index %>"><%= index %></a>
               <% } %>
               <hr>
