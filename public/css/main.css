@@ -32,7 +32,7 @@ button:hover {
 }
 
 hr {
-  height: 1px; 
+  height: 1px;
   background-color: #b0b0b0;
   border: none;
 }
@@ -52,13 +52,13 @@ hr {
   display: inline-block;
   color: white;
   text-decoration: none;
-  border: solid #0093cd;
+  border: solid 1px #0093cd;
   color: #0093cd;
   border-radius: 2px;
   width: 30px;
   padding: 5px 0 5px 0;
   text-align: center;
-  transition: background-color .5s;
+  transition: background-color 0.5s;
 }
 
 .pagination a:hover,
