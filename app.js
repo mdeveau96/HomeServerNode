@@ -28,4 +28,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(indexRoutes);
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Server Running...");
+});

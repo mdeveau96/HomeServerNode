@@ -5,8 +5,6 @@ import { paginate } from "../utils/paginate.js";
 import { getNumberOfPages } from "../utils/getNumberOfPages.js";
 import { sizeConversion } from "../utils/sizeConversion.js";
 
-const ITEMS_PER_PAGE = 10;
-
 export const postAddUpload = (req, res, next) => {
   if (req.file == undefined) {
     File.fetchAll((fileList) => {
@@ -33,14 +31,14 @@ export const postAddUpload = (req, res, next) => {
 export const getUploads = (req, res, next) => {
   const page = req.query.page;
   File.fetchAll((fileList) => {
-    let pagedFileList = paginate(page, fileList, ITEMS_PER_PAGE);
+    let pagedFileList = paginate(page, fileList);
     res.render("index", {
       files: pagedFileList,
       pageTitle: "Home Server",
       path: "/",
       hasFiles: fileList.length > 0,
       isAlert: false,
-      numberOfPages: getNumberOfPages(fileList, ITEMS_PER_PAGE),
+      numberOfPages: getNumberOfPages(fileList),
     });
   });
 };
