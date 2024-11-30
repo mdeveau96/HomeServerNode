@@ -1,7 +1,9 @@
 <%- include('./includes/head.ejs') %>
 <body>
   <% if (path === "/home") { %>
-    <%- include('./home/main_header.ejs') %>
+    <header class="main-header">
+      <%- include('./home/main_header.ejs') %>
+    </header>
   <% } else { %>
     <%- include('./includes/auth_header.ejs') %>
   <% } %>

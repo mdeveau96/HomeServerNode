@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import multer from "multer";
 import indexRoutes from "./routes/index.js";
 import authRoutes from "./routes/auth.js";
+import adminRoutes from "./routes/admin.js";
 import { get404 } from "./controllers/error.js";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage }).single("fileUpload"));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/admin", adminRoutes);
 app.use(indexRoutes);
 app.use(authRoutes);
 
