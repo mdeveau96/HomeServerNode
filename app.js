@@ -4,6 +4,8 @@ import path, { dirname } from "path";
 import bodyParser from "body-parser";
 import multer from "multer";
 import indexRoutes from "./routes/index.js";
+import authRoutes from "./routes/auth.js";
+import { get404 } from "./controllers/error.js";
 
 const app = express();
 
@@ -27,6 +29,9 @@ app.use(multer({ storage: fileStorage }).single("fileUpload"));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(indexRoutes);
+app.use(authRoutes);
+
+app.use(get404);
 
 app.listen(3000, () => {
   console.log("Server Running...");

@@ -1,64 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= pageTitle %></title>
-    <link rel="stylesheet" href="/css/main.css" />
-  </head>
-  <body>
-    <div class="alert-banner <%= isAlert === true ? 'active' : '' %>">
-      File upload failed. Please ensure you have added a file before submitting
-    </div>
-    <header class="main-header">
-      <div class="form-container">
-        <form action="/" method="post" enctype="multipart/form-data">
-          <div class="form-selector">
-            <label for="fileUpload" class="file-label">Upload your file:</label>
-            <input type="file" id="fileUpload" name="fileUpload" />
-            <span class="file-name">No file chosen</span>
-            <button type="submit">Upload File</button>
-          </div>
-        </form>
-      </div>
-    </header>
-    <main>
-      <% if (hasFiles) { %>
-      <div class="table-card">
-        <table class="file-table">
-          <caption>
-            Click file name to download
-            <section class="pagination">
-              <% for( let index = 1; index <= numberOfPages; index++ ) { %>
-              <a href="/?page=<%= index %>"><%= index %></a>
-              <% } %>
-              <hr />
-            </section>
-          </caption>
-          <thead>
-            <tr>
-              <th>File Name</th>
-              <th>Size</th>
-              <th>Date Uploaded</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% for (let file of files) { %>
-            <tr>
-              <td>
-                <a href="/<%= file.file_name %>"><%= file.file_name %></a>
-              </td>
-              <td><%= file.size %></td>
-              <td><%= file.upload_date %></td>
-            </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-      <% } else { %>
-      <h1>No Files Uploaded</h1>
-      <% } %>
-    </main>
-    <script src="/js/main.js"></script>
-  </body>
-</html>
+<%- include('./includes/head.ejs') %>
+<body>
+  <% if (path === "/home") { %>
+    <%- include('./home/main_header.ejs') %>
+  <% } else { %>
+    <%- include('./includes/auth_header.ejs') %>
+  <% } %>
+  <% if (path === "/home") { %>
+    <%- include('./home/data_table.ejs') %>
+  <% } else if (path === "/login") { %>
+    <%- include('./auth/login.ejs') %>
+  <% } else if (path === "/request-password-reset") { %>
+    <%- include('./auth/reset-password-request.ejs') %>
+  <% } else if (path === "/reset-password") { %>
+    <%- include('./auth/reset-password.ejs') %>
+  <% } else { %>
+    <%- include('./404.ejs') %>
+  <% } %>
+<%- include('./includes/end.ejs') %>

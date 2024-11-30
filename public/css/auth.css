@@ -1,0 +1,90 @@
+.auth-header {
+  background-color: #076a00;
+  box-shadow: 0px 1px 1px #87ceeb;
+  padding: 4px;
+}
+
+.auth-header__nav-list {
+  list-style-type: none;
+}
+
+.auth-header__nav-item,
+.auth-header__nav-item a {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+.auth-header__nav-item a:hover,
+.auth-header__nav-item a:active {
+  color: #ff6f61;
+}
+
+.auth-card {
+  width: fit-content;
+  padding-left: 30px;
+  padding-right: 30px;
+  overflow-x: auto;
+  margin: auto;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px #87ceeb;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.auth-card h1,
+.auth-card h2 {
+  text-align: left;
+}
+
+.login-form {
+  width: 20rem;
+  display: block;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+.login-form button {
+  width: 100%;
+}
+
+.form-control {
+  margin: 1rem 0;
+  text-align: left;
+}
+
+.form-control label,
+.form-control input {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.form-control input {
+  border: 1px solid;
+  font: inherit;
+  font-size: larger;
+  border-radius: 5px;
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-control label {
+  text-align: left;
+  font-weight: bold;
+}
+
+.form-control input:focus {
+  outline-color: #0093cd;
+}
+
+.form-control a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #87ceeb;
+  transition: color 0.3s;
+}
+
+.form-control a:hover {
+  color: #0093cd;
+}

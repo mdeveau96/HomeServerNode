@@ -11,7 +11,7 @@ export const postAddUpload = (req, res, next) => {
       res.render("index", {
         files: fileList,
         pageTitle: "Home Server",
-        path: "/",
+        path: "/home",
         hasFiles: fileList.length > 0,
         isAlert: true,
       });
@@ -24,7 +24,7 @@ export const postAddUpload = (req, res, next) => {
     const uploadDate = new Date().toLocaleString();
     const file = new File(name, path, size, uploadDate);
     file.save();
-    res.redirect("/?page=1");
+    res.redirect("/home?page=1");
   }
 };
 
@@ -35,12 +35,16 @@ export const getUploads = (req, res, next) => {
     res.render("index", {
       files: pagedFileList,
       pageTitle: "Home Server",
-      path: "/",
+      path: "/home",
       hasFiles: fileList.length > 0,
       isAlert: false,
       numberOfPages: getNumberOfPages(fileList),
     });
   });
+};
+
+export const getHome = (req, res, next) => {
+  res.redirect("/home?page=1");
 };
 
 export const getFile = (req, res, next) => {
