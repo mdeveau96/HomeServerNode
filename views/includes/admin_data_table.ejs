@@ -1,44 +1,43 @@
 <main>
-    <% if (hasFiles) { %>
-    <div class="table-card">
-      <table class="file-table">
-        <caption>
-          Click file name to download
-          <section class="pagination">
-            <% for( let index = 1; index <= numberOfPages; index++ ) { %>
-            <a href="/home?page=<%= index %>"><%= index %></a>
-            <% } %>
-            <hr />
-          </section>
-        </caption>
-        <thead>
-          <tr>
-            <th></th>
-            <th>File Name</th>
-            <th>Size</th>
-            <th>Date Uploaded</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for (let file of files) { %>
-          <tr>
-            <td>
-                <form action="/delete-row">
-                    <button class="admin-delete" type="submit">X</button>
-                </form>
-            </td>
-            <td>
-              <a href="/<%= file.file_name %>"><%= file.file_name %></a>
-            </td>
-            <td><%= file.size %></td>
-            <td><%= file.upload_date %></td>
-          </tr>
+  <% if (hasFiles) { %>
+  <div class="table-card">
+    <table class="file-table">
+      <caption>
+        Click file name to download
+        <section class="pagination">
+          <% for( let index = 1; index <= numberOfPages; index++ ) { %>
+          <a href="/home?page=<%= index %>"><%= index %></a>
           <% } %>
-        </tbody>
-      </table>
-    </div>
-    <% } else { %>
-    <h1>No Files Uploaded</h1>
-    <% } %>
-  </main>
-  
+          <hr />
+        </section>
+      </caption>
+      <thead>
+        <tr>
+          <th></th>
+          <th>File Name</th>
+          <th>Size</th>
+          <th>Date Uploaded</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let file of files) { %>
+        <tr>
+          <td>
+            <form action="/delete-row">
+              <button class="admin-delete" type="submit">X</button>
+            </form>
+          </td>
+          <td>
+            <a href="/<%= file.file_name %>"><%= file.file_name %></a>
+          </td>
+          <td><%= file.size %></td>
+          <td><%= file.upload_date %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <% } else { %>
+  <h1>No Files Uploaded</h1>
+  <% } %>
+</main>

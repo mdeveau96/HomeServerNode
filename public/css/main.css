@@ -33,7 +33,7 @@ button:hover {
 
 hr {
   height: 1px;
-  background-color: #b0b0b0;
+  background-color: #eeeeee;
   border: none;
 }
 
@@ -90,6 +90,26 @@ hr {
 
 #fileUpload {
   display: none;
+}
+
+.admin-view a {
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  padding: 2px 4px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  background-color: #076a00;
+  transition: background-color 0.5s;
+  border-radius: 10px 0 0 10px;
+  font-size: x-large;
+  bottom: 1rem;
+  right: 0;
+}
+
+.admin-view a:hover,
+.admin-view a:active {
+  background-color: #054700;
 }
 
 .file-label {

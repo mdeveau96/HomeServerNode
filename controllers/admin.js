@@ -16,6 +16,8 @@ export const getAdminUploads = (req, res, next) => {
       hasFiles: fileList.length > 0,
       isAlert: false,
       numberOfPages: getNumberOfPages(fileList),
+      isAuthenticated: req.isLoggedIn,
+      isAdmin: req.isAdmin,
     });
   });
 };
@@ -30,6 +32,8 @@ export const getAdminUsers = (req, res, next) => {
     pageTitle: "Users",
     path: "/admin/users",
     isAlert: false,
+    isAuthenticated: req.isLoggedIn,
+    isAdmin: req.isAdmin,
   });
 };
 
@@ -38,5 +42,7 @@ export const getAdminSignUp = (req, res, next) => {
     pageTitle: "Sign Up",
     path: "/admin/signup",
     isAlert: false,
+    isAuthenticated: req.isLoggedIn,
+    isAdmin: req.isAdmin,
   });
 };

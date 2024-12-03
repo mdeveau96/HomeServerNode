@@ -1,4 +1,34 @@
 <%- include('../includes/head.ejs') %>
 <body>
   <%- include('../includes/admin_header.ejs') %>
-<%- include('../includes/end.ejs') %>
+  <main>
+    <div class="auth-card">
+      <h1>Sign Up</h1>
+      <form class="signup-form" action="/signup" method="post">
+        <div class="form-control">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" />
+        </div>
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" />
+        </div>
+        <div class="form-control">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="tel" name="phoneNumber" id="phoneNumber" />
+        </div>
+        <div class="form-control">
+          <label for="password1">Password</label>
+          <input type="password" name="password1" id="password1" />
+        </div>
+        <div class="form-control">
+          <label for="password2">Confirm Password</label>
+          <input type="password" name="password2" id="password2" />
+        </div>
+        <button type="submit">Sign up</button>
+      </form>
+    </div>
+  </main>
+
+  <%- include('../includes/end.ejs') %>
+</body>
