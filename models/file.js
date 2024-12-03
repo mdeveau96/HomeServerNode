@@ -1,10 +1,10 @@
 import { query, run } from "../services/db.js";
-import { create, update } from "../services/files.js";
+import { createFile, updateFile } from "../services/files.js";
 
 const getFilesfromDB = (callback) => {
   let files;
   try {
-    files = query("SELECT * FROM file;").all();
+    files = query("SELECT * FROM files;");
   } catch (err) {
     console.error(`Error querying files: ${err}`);
     return callback([]);
@@ -21,19 +21,19 @@ export class File {
   }
   save() {
     getFilesfromDB((files) => {
-      for (let file of files) {
-        if (file.file_name === this.file_name) {
-          try {
-            update(file.id, this);
-          } catch (err) {
-            console.log(err);
-          }
+      const file = files.find((f) => f.file_name === this.file_name);
+      if (file) {
+        try {
+          updateFile(file.id, this);
+        } catch (err) {
+          console.log(err);
         }
-      }
-      try {
-        create(JSON.parse(JSON.stringify(this)));
-      } catch (err) {
-        console.log(err);
+      } else {
+        try {
+          createFile(JSON.parse(JSON.stringify(this)));
+        } catch (err) {
+          console.log(err);
+        }
       }
     });
   }

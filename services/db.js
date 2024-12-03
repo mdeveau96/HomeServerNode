@@ -1,10 +1,7 @@
-import sqlite from "better-sqlite3";
-import path from "path";
-
-const DB = new sqlite(path.resolve("file.db"), { fileMustExist: true });
+import { DB } from "../app.js";
 
 export const query = (sql) => {
-  return DB.prepare(sql);
+  return DB.prepare(sql).all();
 };
 
 export const run = (sql) => {

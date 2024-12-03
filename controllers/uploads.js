@@ -14,8 +14,8 @@ export const postAddUpload = (req, res, next) => {
         path: "/home",
         hasFiles: fileList.length > 0,
         isAlert: true,
-        isAuthenticated: req.isLoggedIn,
-        isAdmin: req.isAdmin,
+        // isAuthenticated: req.isLoggedIn,
+        // isAdmin: req.isAdmin,
       });
     });
   } else {
@@ -31,8 +31,7 @@ export const postAddUpload = (req, res, next) => {
 };
 
 export const getUploads = (req, res, next) => {
-  const isLoggedIn = req.get("Cookie").split(";")[0].trim().split("=")[1];
-  const isAdmin = req.get("Cookie").split(";")[1].trim().split("=")[1];
+  console.log(req.user);
   const page = req.query.page;
   File.fetchAll((fileList) => {
     let pagedFileList = paginate(page, fileList);
@@ -43,8 +42,8 @@ export const getUploads = (req, res, next) => {
       hasFiles: fileList.length > 0,
       isAlert: false,
       numberOfPages: getNumberOfPages(fileList),
-      isAuthenticated: isLoggedIn,
-      isAdmin: isAdmin,
+      // isAuthenticated: isLoggedIn,
+      // isAdmin: isAdmin,
     });
   });
 };
