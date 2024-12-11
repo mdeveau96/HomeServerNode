@@ -1,9 +1,7 @@
-import { DB } from "../app.js";
+import { Sequelize } from "sequelize";
+import { SqliteDialect } from "@sequelize/sqlite3";
 
-export const query = (sql) => {
-  return DB.prepare(sql).all();
-};
-
-export const run = (sql) => {
-  return DB.prepare(sql).run();
-};
+export const sequelize = new Sequelize({
+  dialect: SqliteDialect,
+  storage: "file.db",
+});
