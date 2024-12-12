@@ -10,8 +10,8 @@ import {
 const router = express.Router();
 
 router.get("/", isAuthenticated, getHome);
-router.get("/home", isAuthenticated, getUploads);
-router.post("/home", isAuthenticated, postAddUpload);
-router.get("/home/:fileName", isAuthenticated, getFile);
+router.get("/home", getUploads);
+router.post("/home", postAddUpload);
+router.get("/uploads/:fileName", getFile);
 
 export default router;

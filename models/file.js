@@ -1,27 +1,27 @@
-import { Sequelize } from "sequelize";
-import { sequelize } from "../services/db";
+import { Sequelize, DataTypes } from "sequelize";
+import { sequelize } from "../services/db.js";
 
 export const File = sequelize.define("file", {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
   file_name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   path: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   size: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  uploadDate: {
-    type: Sequelize.DATETIME,
+  upload_date: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });

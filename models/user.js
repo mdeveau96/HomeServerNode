@@ -1,31 +1,39 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import { sequelize } from "../services/db";
 
 const phoneValidationRegex = /\d{3}\d{3}\d{4}/;
 
 export const User = sequelize.define("user", {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.STRING,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
   userName: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   email: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
+    unique: true,
     allowNull: false,
   },
   phoneNumber: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       validator: function (v) {
         return phoneValidationRegex.test(v);
       },
     },
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
   },
 });
 

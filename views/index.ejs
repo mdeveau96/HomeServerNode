@@ -1,13 +1,13 @@
 <%- include('./includes/head.ejs') %>
 <body>
-  <% if (path === "/home") { %>
+  <% if (path === "/home" && isAuthenticated) { %>
     <header class="main-header">
       <%- include('./home/main_header.ejs') %>
     </header>
   <% } else { %>
     <%- include('./includes/auth_header.ejs') %>
   <% } %>
-  <% if (path === "/home") { %>
+  <% if (path === "/home" && isAuthenticated) { %>
     <%- include('./home/data_table.ejs') %>
   <% } else if (path === "/login") { %>
     <%- include('./auth/login.ejs') %>

@@ -69,11 +69,15 @@ hr {
 
 .alert-banner {
   margin: auto;
+  width: 30%;
   display: none;
-  background-color: #c81e18;
+  background-color: #fc7571;
+  border: solid 3px red;
+  border-radius: 5px;
   color: white;
   padding: 10px;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .alert-banner:active,

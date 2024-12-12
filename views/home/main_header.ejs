@@ -1,7 +1,7 @@
-<div class="alert-banner <%= isAlert === true ? 'active' : '' %>">
-  File upload failed. Please ensure you have added a file before submitting
-</div>
 <div class="form-container">
+  <div class="alert-banner <%= isAlert === true ? 'active' : '' %>">
+    File upload failed. Please ensure you have added a file before submitting
+  </div>
   <form action="/home" method="post" enctype="multipart/form-data">
     <div class="form-selector">
       <label for="fileUpload" class="file-label">Upload your file:</label>

@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
-import { SqliteDialect } from "@sequelize/sqlite3";
+// import { SqliteDialect } from "@sequelize/sqlite3";
 
 export const sequelize = new Sequelize({
-  dialect: SqliteDialect,
+  dialect: "sqlite",
   storage: "file.db",
 });

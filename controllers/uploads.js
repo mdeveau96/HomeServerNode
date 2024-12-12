@@ -7,45 +7,60 @@ import { sizeConversion } from "../utils/sizeConversion.js";
 
 export const postAddUpload = (req, res, next) => {
   if (req.file == undefined) {
-    File.fetchAll((fileList) => {
-      res.render("index", {
-        files: fileList,
-        pageTitle: "Home Server",
-        path: "/home",
-        hasFiles: fileList.length > 0,
-        isAlert: true,
-        // isAuthenticated: req.isLoggedIn,
-        // isAdmin: req.isAdmin,
-      });
-    });
+    const page = req.query.page;
+    File.findAll()
+      .then((fileList) => {
+        let pagedFileList = paginate(page, fileList);
+        res.render("index", {
+          files: pagedFileList,
+          pageTitle: "Home Server",
+          path: "/home?page=1",
+          hasFiles: fileList.length > 0,
+          isAlert: true,
+          numberOfPages: getNumberOfPages(fileList),
+          isAuthenticated: true,
+          // isAdmin: isAdmin,
+        });
+      })
+      .catch((err) => console.log(err));
   } else {
     const upload = req.file;
     const name = upload.originalname;
     const path = upload.path;
     const size = sizeConversion(upload.size);
     const uploadDate = new Date().toLocaleString();
-    const file = new File(name, path, size, uploadDate);
-    file.save();
-    res.redirect("/home?page=1");
+    File.create({
+      file_name: name,
+      path: path,
+      size: size,
+      upload_date: uploadDate,
+    })
+      .then((result) => {
+        console.log("Uploaded File");
+        res.redirect("/home?page=1");
+      })
+      .catch((err) => console.log(err));
   }
 };
 
 export const getUploads = (req, res, next) => {
   console.log(req.user);
   const page = req.query.page;
-  File.fetchAll((fileList) => {
-    let pagedFileList = paginate(page, fileList);
-    res.render("index", {
-      files: pagedFileList,
-      pageTitle: "Home Server",
-      path: "/home",
-      hasFiles: fileList.length > 0,
-      isAlert: false,
-      numberOfPages: getNumberOfPages(fileList),
-      // isAuthenticated: isLoggedIn,
-      // isAdmin: isAdmin,
-    });
-  });
+  File.findAll()
+    .then((fileList) => {
+      let pagedFileList = paginate(page, fileList);
+      res.render("index", {
+        files: pagedFileList,
+        pageTitle: "Home Server",
+        path: "/home",
+        hasFiles: fileList.length > 0,
+        isAlert: false,
+        numberOfPages: getNumberOfPages(fileList),
+        isAuthenticated: true,
+        // isAdmin: isAdmin,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 export const getHome = (req, res, next) => {
@@ -54,6 +69,7 @@ export const getHome = (req, res, next) => {
 
 export const getFile = (req, res, next) => {
   const file = req.params.fileName;
+  console.log(file);
   const filePath = path.join("uploads", file);
   if (file.includes(".pdf")) {
     fs.readFile(filePath, (err, data) => {
