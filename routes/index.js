@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { isAuthenticated } from "../auth/isAuthenticated.js";
+import { isAuth } from "../middleware/is-auth.js";
 import {
   getFile,
   getHome,
@@ -9,9 +9,9 @@ import {
 
 const router = express.Router();
 
-router.get("/", isAuthenticated, getHome);
-router.get("/home", getUploads);
-router.post("/home", postAddUpload);
-router.get("/uploads/:fileName", getFile);
+router.get("/", isAuth, getHome);
+router.get("/home", isAuth, getUploads);
+router.post("/home", isAuth, postAddUpload);
+router.get("/uploads/:fileName", isAuth, getFile);
 
 export default router;

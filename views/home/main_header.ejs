@@ -11,6 +11,12 @@
     </div>
   </form>
 </div>
+<% if (path === "/home") { %>
 <div class="admin-view">
   <a href="/admin/"><span>&#9881;</span></a>
 </div>
+<% } else if (path === "/admin/home") { %>
+<div class="admin-view">
+  <a href="/"><span>&#9881;</span></a>
+</div>
+<% } %>

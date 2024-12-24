@@ -1,17 +1,43 @@
+import { User } from "../models/user.js";
+import bycrypt from "bcryptjs";
+
 export const postLogin = (req, res, next) => {
-  req.session.isLoggedIn = true;
-  res.redirect("/home?page=1");
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (!user) {
+        return res.redirect("/login");
+      }
+      return bycrypt
+        .compare(password, user.password)
+        .then((doMatch) => {
+          if (doMatch) {
+            req.session.isLoggedIn = true;
+            req.session.user = user;
+            return req.session.save((err) => {
+              console.log(err);
+              res.redirect("/home?page=1");
+            });
+          }
+          res.redirect("/login");
+        })
+        .catch((err) => {
+          console.log(err);
+          res.redirect("/login");
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const getLogin = (req, res, next) => {
-  // const isLoggedIn = req.get("Cookie").split(";")[0].trim().split("=")[1];
-  // const isAdmin = req.get("Cookie").split(";")[1].trim().split("=")[1];
   res.render("index", {
     pageTitle: "Login",
     path: "/login",
     isAlert: false,
-    // isAuthenticated: isLoggedIn,
-    // isAdmin: isAdmin,
+    isAuthenticated: false,
   });
 };
 
@@ -24,8 +50,6 @@ export const getPWResetRequest = (req, res, next) => {
     pageTitle: "Reset Password",
     path: "/request-password-reset",
     isAlert: false,
-    // isAuthenticated: req.isLoggedIn,
-    // isAdmin: req.isAdmin,
   });
 };
 
@@ -38,7 +62,5 @@ export const getPWReset = (req, res, next) => {
     pageTitle: "Reset Password",
     path: "/reset-password",
     isAlert: false,
-    // isAuthenticated: req.isLoggedIn,
-    // isAdmin: req.isAdmin,
   });
 };

@@ -18,8 +18,7 @@ export const postAddUpload = (req, res, next) => {
           hasFiles: fileList.length > 0,
           isAlert: true,
           numberOfPages: getNumberOfPages(fileList),
-          isAuthenticated: true,
-          // isAdmin: isAdmin,
+          isAuthenticated: req.session.isLoggedIn,
         });
       })
       .catch((err) => console.log(err));
@@ -56,8 +55,7 @@ export const getUploads = (req, res, next) => {
         hasFiles: fileList.length > 0,
         isAlert: false,
         numberOfPages: getNumberOfPages(fileList),
-        isAuthenticated: true,
-        // isAdmin: isAdmin,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));

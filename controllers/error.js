@@ -4,7 +4,6 @@ export const get404 = (req, res, next) => {
     .render("404", {
       pageTitle: "Page Not Found",
       path: "/404",
-      isAuthenticated: req.isLoggedIn,
-      isAdmin: req.isAdmin,
+      isAuthenticated: req.session.isLoggedIn
     });
 };

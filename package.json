@@ -15,8 +15,11 @@
   },
   "dependencies": {
     "@sequelize/sqlite3": "^7.0.0-alpha.43",
+    "bcryptjs": "^2.4.3",
     "better-sqlite3": "^11.6.0",
     "body-parser": "^1.20.3",
+    "connect-session-sequelize": "^7.1.7",
+    "csrf-csrf": "^3.1.0",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
