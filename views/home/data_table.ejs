@@ -1,5 +1,9 @@
 <main>
-  <% if (hasFiles) { %>
+  <% if (errorMessage) { %>
+  <div class="user-message user-message--error main-header-error">
+    <%= errorMessage %>
+  </div>
+  <% } %> <% if (hasFiles) { %>
   <div class="table-card">
     <table class="file-table">
       <caption>

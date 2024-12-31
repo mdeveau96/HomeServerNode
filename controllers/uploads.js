@@ -7,21 +7,11 @@ import { sizeConversion } from "../utils/sizeConversion.js";
 
 export const postAddUpload = (req, res, next) => {
   if (req.file == undefined) {
-    const page = req.query.page;
-    File.findAll()
-      .then((fileList) => {
-        let pagedFileList = paginate(page, fileList);
-        res.render("index", {
-          files: pagedFileList,
-          pageTitle: "Home Server",
-          path: "/home?page=1",
-          hasFiles: fileList.length > 0,
-          isAlert: true,
-          numberOfPages: getNumberOfPages(fileList),
-          isAuthenticated: req.session.isLoggedIn,
-        });
-      })
-      .catch((err) => console.log(err));
+    req.flash(
+      "error",
+      "File upload failed. Please ensure you have added a file before submitting"
+    );
+    res.redirect("/home?page=1");
   } else {
     const upload = req.file;
     const name = upload.originalname;
@@ -35,6 +25,7 @@ export const postAddUpload = (req, res, next) => {
       upload_date: uploadDate,
     })
       .then((result) => {
+        req.session.isAlert = false;
         console.log("Uploaded File");
         res.redirect("/home?page=1");
       })
@@ -43,8 +34,14 @@ export const postAddUpload = (req, res, next) => {
 };
 
 export const getUploads = (req, res, next) => {
-  console.log(req.user);
   const page = req.query.page;
+  console.log(req.session.user.isAdmin);
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   File.findAll()
     .then((fileList) => {
       let pagedFileList = paginate(page, fileList);
@@ -53,9 +50,10 @@ export const getUploads = (req, res, next) => {
         pageTitle: "Home Server",
         path: "/home",
         hasFiles: fileList.length > 0,
-        isAlert: false,
+        isAlert: req.session.isAlert,
         numberOfPages: getNumberOfPages(fileList),
-        isAuthenticated: req.session.isLoggedIn,
+        errorMessage: message,
+        isAdmin: req.session.user.isAdmin,
       });
     })
     .catch((err) => console.log(err));
@@ -67,7 +65,6 @@ export const getHome = (req, res, next) => {
 
 export const getFile = (req, res, next) => {
   const file = req.params.fileName;
-  console.log(file);
   const filePath = path.join("uploads", file);
   if (file.includes(".pdf")) {
     fs.readFile(filePath, (err, data) => {

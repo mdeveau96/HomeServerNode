@@ -2,11 +2,16 @@ import { File } from "../models/file.js";
 import { User } from "../models/user.js";
 import { paginate } from "../utils/paginate.js";
 import { getNumberOfPages } from "../utils/getNumberOfPages.js";
-import { sizeConversion } from "../utils/sizeConversion.js";
 import bycrypt from "bcryptjs";
 
 export const getAdminUploads = (req, res, next) => {
   const page = req.query.page;
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   File.findAll()
     .then((fileList) => {
       let pagedFileList = paginate(page, fileList);
@@ -15,9 +20,9 @@ export const getAdminUploads = (req, res, next) => {
         pageTitle: "Home Server",
         path: "/admin/home",
         hasFiles: fileList.length > 0,
-        isAlert: false,
         numberOfPages: getNumberOfPages(fileList),
-        isAuthenticated: req.session.isLoggedIn,
+        errorMessage: message,
+        isAdmin: req.session.user.isAdmin,
       });
     })
     .catch((err) => {
@@ -36,8 +41,6 @@ export const getAdminUsers = (req, res, next) => {
         users: users,
         pageTitle: "Users",
         path: "/admin/users",
-        isAlert: false,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => {
@@ -46,10 +49,16 @@ export const getAdminUsers = (req, res, next) => {
 };
 
 export const getAdminSignUp = (req, res, next) => {
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   res.render("admin/signup", {
     pageTitle: "Sign Up",
     path: "/admin/signup",
-    isAuthenticated: req.session.isLoggedIn,
+    errorMessage: message,
   });
 };
 
@@ -62,7 +71,8 @@ export const postAdminSignup = (req, res, next) => {
     User.findOne({ where: { email: email } })
       .then((userDoc) => {
         if (userDoc) {
-          return res.redirect("/signup");
+          req.flash("error", "Email already in use. Please sign in.");
+          return res.redirect("/admin/signup");
         }
         return bycrypt
           .hash(password, 12)
@@ -79,8 +89,25 @@ export const postAdminSignup = (req, res, next) => {
           });
       })
       .catch((err) => {
+        req.flash("error", "Failed to sign up user");
         return console.log(err);
       });
+  } else {
+    req.flash("error", "Passwords do not match");
+    return res.redirect("/admin/signup");
   }
-  return res.redirect("/signup");
+};
+
+export const postAdminDeleteFile = (req, res, next) => {
+  const file = req.body.fileId;
+  File.findByPk(file)
+    .then((file) => {
+      console.log("Deleting file: " + file.file_name);
+      file.destroy();
+    })
+    .catch((err) => {
+      req.flash("error", `Failed to delete file: ${err.message}`);
+      return console.log(err);
+    });
+  res.redirect("/admin/home?page=1");
 };

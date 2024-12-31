@@ -1,21 +1,25 @@
 <div class="form-container">
-  <div class="alert-banner <%= isAlert === true ? 'active' : '' %>">
-    File upload failed. Please ensure you have added a file before submitting
-  </div>
   <form action="/home" method="post" enctype="multipart/form-data">
     <div class="form-selector">
       <label for="fileUpload" class="file-label">Upload your file:</label>
       <input type="file" id="fileUpload" name="fileUpload" />
       <span class="file-name">No file chosen</span>
+      <input type="hidden" name="CSRFToken" value="<%= csrfToken %>" />
       <button type="submit">Upload File</button>
     </div>
   </form>
 </div>
-<% if (path === "/home") { %>
+<div class="logout-form">
+  <form action="/logout" method="post">
+    <input type="hidden" name="CSRFToken" value="<%= csrfToken %>" />
+    <button type="submit">Logout</button>
+  </form>
+</div>
+<% if (isAdmin && path === "/home") { %>
 <div class="admin-view">
   <a href="/admin/"><span>&#9881;</span></a>
 </div>
-<% } else if (path === "/admin/home") { %>
+<% } else if (isAdmin && path === "/admin/home") { %>
 <div class="admin-view">
   <a href="/"><span>&#9881;</span></a>
 </div>

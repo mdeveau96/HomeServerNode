@@ -23,7 +23,8 @@
         <% for (let file of files) { %>
         <tr>
           <td>
-            <form action="/delete-row">
+            <form action="/admin/delete-file" method="POST">
+              <input type="hidden" value="<%= file.id %>" name="fileId" />
               <button class="admin-delete" type="submit">X</button>
             </form>
           </td>

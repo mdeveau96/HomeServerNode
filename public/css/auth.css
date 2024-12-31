@@ -88,3 +88,10 @@
 .form-control a:hover {
   color: #0093cd;
 }
+
+.login-error {
+  margin-bottom: 1rem;
+  text-align: left;
+  font-weight: bold;
+  color: red;
+}

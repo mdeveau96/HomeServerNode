@@ -9,13 +9,23 @@ import adminRoutes from "./routes/admin.js";
 import { get404 } from "./controllers/error.js";
 import { sequelize } from "./services/db.js";
 import { User } from "./models/user.js";
+import { csrfSync } from "csrf-sync";
+import cookieParser from "cookie-parser";
 import session from "express-session";
 import connectSequelizeSession from "connect-session-sequelize";
+import pkg from "connect-flash";
+const flash = pkg;
 const SequelizeStore = connectSequelizeSession(session.Store);
 
 const app = express();
 const store = new SequelizeStore({
   db: sequelize,
+  expiration: 60 * 60,
+});
+const { csrfSynchronisedProtection } = csrfSync({
+  getTokenFromRequest: (req) => {
+    return req.body["CSRFToken"];
+  },
 });
 
 const fileStorage = multer.diskStorage({
@@ -45,12 +55,13 @@ app.use(
   })
 );
 store.sync();
+app.use(cookieParser("changeme2"));
+app.use(flash());
 
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
-  console.log(req.session.user);
   User.findByPk(req.session.user.id)
     .then((user) => {
       req.user = user;
@@ -59,8 +70,9 @@ app.use((req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-app.use((req, res, next) => {
+app.use(csrfSynchronisedProtection, (req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
   next();
 });
 

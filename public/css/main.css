@@ -42,6 +42,7 @@ hr {
   background-color: #076a00;
   box-shadow: 0px 1px 1px #87ceeb;
   padding: 10px;
+  display: flex;
 }
 
 .pagination {
@@ -67,29 +68,17 @@ hr {
   color: white;
 }
 
-.alert-banner {
-  margin: auto;
-  width: 30%;
-  display: none;
-  background-color: #fc7571;
-  border: solid 3px red;
-  border-radius: 5px;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.alert-banner:active,
-.alert-banner.active {
-  display: grid;
-}
-
 .form-container {
   margin: auto;
+  width: fit-content;
   align-items: center;
   font-size: 16px;
   border: none;
+}
+
+.logout-form {
+  width: fit-content;
+  align-items: right;
 }
 
 #fileUpload {
@@ -187,6 +176,26 @@ caption {
 
 .file-table tbody tr:hover {
   background-color: #ffedeb;
+}
+
+.user-message {
+  margin: auto;
+  width: 90%;
+  border: 1px solid #4771fa;
+  padding: 0.5rem;
+  border-radius: 3px;
+  background-color: #8ea8fd;
+  text-align: center;
+}
+.user-message--error {
+  border-color: red;
+  background: rgb(255, 176, 176);
+  color: red;
+}
+
+.main-header-error {
+  width: 30%;
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 600px) {
