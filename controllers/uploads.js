@@ -18,7 +18,7 @@ export const postAddUpload = (req, res, next) => {
     const path = upload.path;
     const size = sizeConversion(upload.size);
     const uploadDate = new Date().toLocaleString();
-    File.create({
+    return File.create({
       file_name: name,
       path: path,
       size: size,
@@ -67,19 +67,24 @@ export const getFile = (req, res, next) => {
   const file = req.params.fileName;
   const filePath = path.join("uploads", file);
   if (file.includes(".pdf")) {
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        return next(err);
-      }
-      res.setHeader("Content-Type", "application/pdf");
-      res.send(data);
-    });
+    // fs.readFile(filePath, (err, data) => {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    //   res.setHeader("Content-Type", "application/pdf");
+    //   res.send(data);
+    // });
+    const data = fs.createReadStream(filePath);
+    res.setHeader("Content-Type", "application/pdf");
+    data.pipe(res);
   } else {
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        return next(err);
-      }
-      res.send(data);
-    });
+    // fs.readFile(filePath, (err, data) => {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    //   res.send(data);
+    // });
+    const data = fs.createReadStream(filePath);
+    data.pipe(res);
   }
 };

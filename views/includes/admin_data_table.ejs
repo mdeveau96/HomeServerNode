@@ -24,6 +24,7 @@
         <tr>
           <td>
             <form action="/admin/delete-file" method="POST">
+              <input type="hidden" name="CSRFToken" value="<%= csrfToken %>" />
               <input type="hidden" value="<%= file.id %>" name="fileId" />
               <button class="admin-delete" type="submit">X</button>
             </form>
