@@ -2,8 +2,9 @@ import { File } from "../models/file.js";
 import fs from "fs";
 import path from "path";
 import { paginate } from "../utils/paginate.js";
-import { getNumberOfPages } from "../utils/getNumberOfPages.js";
 import { sizeConversion } from "../utils/sizeConversion.js";
+
+const ITEMS_PER_PAGE = 10;
 
 export const postAddUpload = (req, res, next) => {
   if (req.file == undefined) {
@@ -34,7 +35,7 @@ export const postAddUpload = (req, res, next) => {
 };
 
 export const getUploads = (req, res, next) => {
-  const page = req.query.page;
+  const page = +req.query.page || 1;
   console.log(req.session.user.isAdmin);
   let message = req.flash("error");
   if (message.length > 0) {
@@ -42,16 +43,27 @@ export const getUploads = (req, res, next) => {
   } else {
     message = null;
   }
-  File.findAll()
+  let totalFiles;
+  File.count()
+    .then((numFiles) => {
+      totalFiles = numFiles;
+      return File.findAll({
+        offset: (page - 1) * ITEMS_PER_PAGE,
+        limit: ITEMS_PER_PAGE,
+      });
+    })
     .then((fileList) => {
-      let pagedFileList = paginate(page, fileList);
       res.render("index", {
-        files: pagedFileList,
+        files: fileList,
         pageTitle: "Home Server",
         path: "/home",
         hasFiles: fileList.length > 0,
-        isAlert: req.session.isAlert,
-        numberOfPages: getNumberOfPages(fileList),
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalFiles,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalFiles / ITEMS_PER_PAGE),
         errorMessage: message,
         isAdmin: req.session.user.isAdmin,
       });

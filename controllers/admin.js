@@ -1,26 +1,40 @@
 import { File } from "../models/file.js";
 import { User } from "../models/user.js";
 import { paginate } from "../utils/paginate.js";
-import { getNumberOfPages } from "../utils/getNumberOfPages.js";
 import bycrypt from "bcryptjs";
 
+const ITEMS_PER_PAGE = 1;
+
 export const getAdminUploads = (req, res, next) => {
-  const page = req.query.page;
+  const page = +req.query.page || 1;
+  console.log(req.session.user.isAdmin);
   let message = req.flash("error");
   if (message.length > 0) {
     message = message[0];
   } else {
     message = null;
   }
-  File.findAll()
+  let totalFiles;
+  File.count()
+    .then((numFiles) => {
+      totalFiles = numFiles;
+      return File.findAll({
+        offset: (page - 1) * ITEMS_PER_PAGE,
+        limit: ITEMS_PER_PAGE,
+      });
+    })
     .then((fileList) => {
-      let pagedFileList = paginate(page, fileList);
       res.render("admin/admin", {
-        files: pagedFileList,
+        files: fileList,
         pageTitle: "Home Server",
         path: "/admin/home",
         hasFiles: fileList.length > 0,
-        numberOfPages: getNumberOfPages(fileList),
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalFiles,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalFiles / ITEMS_PER_PAGE),
         errorMessage: message,
         isAdmin: req.session.user.isAdmin,
       });
