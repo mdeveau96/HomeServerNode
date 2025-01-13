@@ -1,0 +1,13 @@
+[Unit]
+Description=Secure Home Server
+
+[Service]
+ExecStart=docker run -d -p 3000:80 -v /uploads secure-home-server
+WorkingDirectory=/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
