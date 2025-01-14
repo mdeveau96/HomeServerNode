@@ -2,7 +2,7 @@
 Description=Secure Home Server
 
 [Service]
-ExecStart=docker run -d -p 3000:80 -v /uploads secure-home-server
+ExecStart=docker run --rm --network host -v /uploads secure-home-server
 WorkingDirectory=/
 StandardOutput=inherit
 StandardError=inherit
